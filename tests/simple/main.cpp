@@ -23,6 +23,7 @@ public:
     }
 };
 
+// Ez el van rontva, hiányzik a const
 class Bird : public TAnimal {
 public:
     virtual void Say() {

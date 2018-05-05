@@ -71,8 +71,10 @@ def parseBaseVirtuals(contents, signatures):
         endOfFuncDefSign = match.end(8) - 1
         prettySignature = contents[startOfVirtualGroup : endOfFuncDefSign]
 
+        isConstBool = isConstGroup == "const"
+
         # FG object
-        fg = FunctionSignature("Nothing", baseClassGroup, typeGroup, nameGroup, parameteresGroup, isConstGroup, prettySignature)
+        fg = FunctionSignature(baseClassGroup, "AbstractBase", typeGroup, nameGroup, parameteresGroup, isConstBool, prettySignature)
         signatures.add(fg)
 
         # Signatúra eltávolítása

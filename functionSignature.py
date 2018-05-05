@@ -9,9 +9,28 @@ class FunctionSignature(object):
         self.isConst = isConst
         self.pretty = pretty
 
+    def IsBase(self):
+        return self.baseClass == "AbstractBase"
+
+    def IsDerived(self):
+        return not self.IsBase()
+
+    def IsVirtualOverrideCorrect(self, base):
+        if self.baseClass != base.derivedClass:
+            raise RuntimeError("Nem jó a leszármazási kapcsolat")
+
+        return self.type == base.type and \
+            self.name == base.name and \
+            self.parameteres == base.parameteres and \
+            self.isConst == base.isConst
+
+    def GetFunctionDefinitionString(self):
+        const = f" const" if self.isConst else f""
+        return f"{self.type} {self.name}({self.parameteres}){const}"
+
     def ToString(self):
-        unifiedClass = f"{self.baseClass}" if self.derivedClass == "Nothing" else f"{self.derivedClass}:{self.baseClass}"
-        return f"{unifiedClass} {self.type} {self.name} ({self.parameteres}) {self.isConst}"
+        unifiedClass = f"{self.derivedClass}" if self.IsBase() else f"{self.derivedClass}:{self.baseClass}"
+        return f"{unifiedClass} {self.GetFunctionDefinitionString()}"
 
     def ToPretty(self):
         return f"{self.pretty}"

@@ -46,8 +46,10 @@ def parseDerivedVirtuals(contents, signatures):
         endOfFuncDefSign = match.end(9) - 1
         prettySignature = contents[startOfVirtualGroup : endOfFuncDefSign]
 
+        isConstBool = isConstGroup == "const"
+
         # FG object
-        fg = FunctionSignature(derivedClassGroup, baseClassGroup, typeGroup, nameGroup, parameteresGroup, isConstGroup, prettySignature)
+        fg = FunctionSignature(derivedClassGroup, baseClassGroup, typeGroup, nameGroup, parameteresGroup, isConstBool, prettySignature)
         signatures.add(fg)
 
         # Signatúra eltávolítása

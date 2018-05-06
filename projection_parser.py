@@ -2,6 +2,21 @@ import baseClassParser
 import derivedClassParser
 from functionSignature import FunctionSignature
 
+def lookupVirtualFunctionInWholeBaseClass(signatures, derived, base):
+    # megnézi hogy a potenciális base-eknek létezik-e olyan fv-e, ami a derived-ben benne van
+    # ha létezik, az azt jelenti, hogy nem friss ágon jött be a virtuális függvény, már előtte is
+    # ott volt a base osztályban
+    for signature in signatures:
+        # ha ugyanaz az osztály, de a fv lehet más
+        if signature.IsTheSameClass(base):
+            # ha ugyanaz lényegében a fv is
+            if derived.IsTheSignatureSubStructureSame(signature):
+                return True
+
+    # ha átnéztünk mindent, de nincs ilyen, teljesen új fv-ről van szó
+    return False
+
+
 def recursionLookup(bases, signatures):
     # megállási feltétel, ha már nincs mit vizsgálni
     if len(bases) == 0:
@@ -17,13 +32,22 @@ def recursionLookup(bases, signatures):
         # meg kell keresni azokat, akik belőle származnak le
         for signature in signatures:
             if signature.baseClass == base.derivedClass:
-                # kényelmesebbb névre nevezése
+                # kényelmesebbb névre nevezése, most hogy már tudjuk hogy leszármazott
                 derived = signature
 
+                # meg kell nézni, hogy új ágon (frissen) nem jön-e be újabb virtuális függvény,
+                # ha false, akkor új virtuális fv van a derivedben
+                if lookupVirtualFunctionInWholeBaseClass(signatures, derived, base) == False:
+                    # mivel nincs ilyen, így onnan mint base, elkezdhetjük felgöngyölíteni a szálat
+                    newBases.add(derived)
+                    continue
+
+                # ha jó a leszármazási hierarchia, de teljesen más fv-ről van szó, akkor azt nem
+                # kell tovább vizsgálni
                 if not derived.IsTheSignatureSubStructureSame(base):
                     continue
 
-                # következő szinten őt is vizsgálni kell
+                # következő szinten őt is vizsgálni kell majd, mint base
                 newBases.add(derived)
 
                 # print(derived.derivedClass)

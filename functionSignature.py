@@ -15,6 +15,10 @@ class FunctionSignature(object):
     def IsDerived(self):
         return not self.IsBase()
 
+    def IsTheSameClass(self, other):
+        return self.baseClass == other.baseClass and \
+            self.derivedClass == other.derivedClass
+
     # Itt nem kell vizsgálni, hogy a const egyezik-e
     def IsTheSignatureSubStructureSame(self, base):
         return self.type == base.type and \

@@ -34,11 +34,11 @@ def parseBaseVirtuals(contents, signatures):
     # lezáró zárójel a paramétereknek
     # legalább 1 whitespace
     # vagy van const kulcsszó vagy nincs
-    # függvénydefinicíó elkezdése jel
+    # függvénydefinicíó vége jel
 
     classHeader = r"class(?:\s+)([\w]+)(?:\s+){"
     anythingHeader = r"([\s\S]*?)"
-    virtualHeader = r"(virtual)(?:\s+)([\w]+)(?:\s+)([\w]+)\((.*)\)(?:\s+)(\s?|const)(?:\s*)({)"
+    virtualHeader = r"(virtual)(?:\s+)([\w]+)(?:\s+)([\w]+)\((.*)\)(?:\s+)(\s?|const)(?:\s*)(;)"
     pattern = re.compile(classHeader + anythingHeader + virtualHeader, re.MULTILINE)
 
     while True:
@@ -57,7 +57,7 @@ def parseBaseVirtuals(contents, signatures):
         nameGroup         = match.group(5)
         parameteresGroup  = match.group(6)
         isConstGroup      = match.group(7)
-        funcDefSign       = match.group(8)
+        funcEndSign       = match.group(8)
 
         # ha talált egy másik class-t a köztes részben, akkor az azt jelenti, hogy kimentünk a blokkunkból
         # tehát ez már nem jó, felül kellene írni a legelső class-t, hogy legközelebb ne találjuk meg
@@ -68,8 +68,8 @@ def parseBaseVirtuals(contents, signatures):
             continue
 
         startOfVirtualGroup = match.start(3)
-        endOfFuncDefSign = match.end(8) - 1
-        prettySignature = contents[startOfVirtualGroup : endOfFuncDefSign]
+        endOfFuncEndSign = match.end(8)
+        prettySignature = contents[startOfVirtualGroup : endOfFuncEndSign]
 
         isConstBool = isConstGroup == "const"
 
@@ -78,7 +78,7 @@ def parseBaseVirtuals(contents, signatures):
         signatures.add(fg)
 
         # Signatúra eltávolítása
-        contents = contents[ : startOfVirtualGroup] + contents[endOfFuncDefSign : ]
+        contents = contents[ : startOfVirtualGroup] + contents[endOfFuncEndSign : ]
 
         # Debug print
         #print(contents)

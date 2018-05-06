@@ -11,7 +11,7 @@ def parseDerivedVirtuals(contents, signatures):
 
     derivedHeader = r"class(?:\s+)([\w]+)(?:\s+)\:(?:\s+)(?:public|private|protected)(?:\s+)([\w]+)(?:\s+){"
     anythingHeader = r"([\s\S]*?)"
-    virtualHeader = r"(virtual)(?:\s+)([\w]+)(?:\s+)([\w]+)\((.*)\)(?:\s+)(\s?|const)(?:\s*)({)"
+    virtualHeader = r"(virtual)(?:\s+)([\w]+)(?:\s+)([\w]+)\((.*)\)(?:\s+)(\s?|const)(?:\s*)(;)"
     pattern = re.compile(derivedHeader + anythingHeader + virtualHeader, re.MULTILINE)
 
     while True:
@@ -31,7 +31,7 @@ def parseDerivedVirtuals(contents, signatures):
         nameGroup         = match.group(6)
         parameteresGroup  = match.group(7)
         isConstGroup      = match.group(8)
-        funcDefSign       = match.group(9)
+        funcEndSign       = match.group(9)
 
         # ha talált egy másik class-t a köztes részben, akkor az azt jelenti, hogy kimentünk a blokkunkból
         # tehát ez már nem jó, felül kellene írni a legelső class-t, hogy legközelebb ne találjuk meg
@@ -43,8 +43,8 @@ def parseDerivedVirtuals(contents, signatures):
 
         # Signatúra
         startOfVirtualGroup = match.start(4)
-        endOfFuncDefSign = match.end(9) - 1
-        prettySignature = contents[startOfVirtualGroup : endOfFuncDefSign]
+        endOfFuncEndSign = match.end(9) - 1
+        prettySignature = contents[startOfVirtualGroup : endOfFuncEndSign]
 
         isConstBool = isConstGroup == "const"
 
@@ -53,7 +53,7 @@ def parseDerivedVirtuals(contents, signatures):
         signatures.add(fg)
 
         # Signatúra eltávolítása
-        contents = contents[ : startOfVirtualGroup] + contents[endOfFuncDefSign : ]
+        contents = contents[ : startOfVirtualGroup] + contents[endOfFuncEndSign : ]
 
         # Debug print
         #print(contents)

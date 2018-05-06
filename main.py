@@ -2,6 +2,7 @@ import projection_parser
 
 def main():
     f = open("tests/simple/main.cpp", "r")
+    # f = open("tests/multi_level/main.cpp", "r")
 
     contents = f.read()
 

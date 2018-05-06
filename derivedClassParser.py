@@ -5,7 +5,7 @@ from functionSignature import FunctionSignature
 def debugPrint(pre, string):
     print(pre + " ->" + string + "<-")
 
-# Többszörös öröklésre nem működik
+# Többszörös öröklésre nem működik, csak a direkt öröklése
 def parseDerivedVirtuals(contents, signatures):
     # print("-- parseDerivedVirtuals --")
 

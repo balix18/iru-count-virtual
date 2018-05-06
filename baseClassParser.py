@@ -32,13 +32,13 @@ def parseBaseVirtuals(contents, signatures):
     # nyitó zárójel a paramétereknek
     # bármilyen karakterek a paramétereknek
     # lezáró zárójel a paramétereknek
-    # legalább 1 whitespace
+    # bármennyi whitespace
     # vagy van const kulcsszó vagy nincs
     # függvénydefinicíó vége jel
 
     classHeader = r"class(?:\s+)([\w]+)(?:\s+){"
     anythingHeader = r"([\s\S]*?)"
-    virtualHeader = r"(virtual)(?:\s+)([\w]+)(?:\s+)([\w]+)\((.*)\)(?:\s+)(\s?|const)(?:\s*)(;)"
+    virtualHeader = r"(virtual)(?:\s+)([\w]+)(?:\s+)([\w]+)\((.*)\)(?:\s*)(\s?|const)(?:\s*)(;)"
     pattern = re.compile(classHeader + anythingHeader + virtualHeader, re.MULTILINE)
 
     while True:

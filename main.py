@@ -28,27 +28,27 @@ def findHeaderFiles(listOfFiles):
 
 def main():
 
-    # # Debug, statikus könyvtár megadás
-    # # workDirectory = "./tests/multi_hierarchi_multi_level"
+    # Debug, statikus könyvtár megadás
+    # workDirectory = ".\tests\multi_hierarchi_multi_level\"
 
-    # # CL parser
-    # workDirectory = commandLineArgParser()
+    # command line arg parser
+    workDirectory = commandLineArgParser()
 
-    # # minden fájl és könyvtár a megadott könyvtárban
-    # listOfFiles = os.listdir(workDirectory)
+    if not workDirectory.endswith('\\'):
+        workDirectory = workDirectory + ' \\'
 
-    # # csak a header file-ok
-    # headerFiles = findHeaderFiles(listOfFiles)
+    # minden fájl és könyvtár a megadott könyvtárban
+    listOfFiles = os.listdir(workDirectory)
 
-    # print("Ezeket a C++ header fájlokat találtam a könyvtárban:")
-    # for headerFile in headerFiles:
-    #     print(f"- {headerFile}")
+    # csak a header file-ok
+    headerFiles = findHeaderFiles(listOfFiles)
 
-    f = open("tests/multi_hierarchi_multi_level/Dog.h", "r")
+    print("Ezeket a C++ header fájlokat találtam a könyvtárban:")
+    for headerFile in headerFiles:
+        print(f"- {headerFile}")
 
-    contents = f.read()
+    projection_parser.collectSignaturesFromHeaderFiles(workDirectory, headerFiles)
 
-    projection_parser.testFunc(contents)
 
 if __name__ == "__main__":
     main()

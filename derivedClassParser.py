@@ -11,7 +11,7 @@ def parseDerivedVirtuals(contents, signatures):
 
     derivedHeader = r"class(?:\s+)([\w]+)(?:\s+)\:(?:\s+)(?:public|private|protected)(?:\s+)([\w]+)(?:\s+){"
     anythingHeader = r"([\s\S]*?)"
-    virtualHeader = r"(virtual)(?:\s+)([\w]+)(?:\s+)([\w]+)\((.*)\)(?:\s+)(\s?|const)(?:\s*)(;)"
+    virtualHeader = r"(virtual)(?:\s+)([\w]+)(?:\s+)([\w]+)\((.*)\)(?:\s*)(\s?|const)(?:\s*)(;)"
     pattern = re.compile(derivedHeader + anythingHeader + virtualHeader, re.MULTILINE)
 
     while True:

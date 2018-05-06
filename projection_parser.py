@@ -38,27 +38,39 @@ def recursionLookup(bases, signatures):
     recursionLookup(newBases, signatures)
 
 
-def testFunc(contents):
-    signatures = set()
-
-    # signatures kigyűjtése
-    contents = baseClassParser.parseBaseVirtuals(contents, signatures)
-    contents = derivedClassParser.parseDerivedVirtuals(contents, signatures)
-    
-    # a legfelső hierarchia kiválasztása
+def examineVirtualFunctions(signatures):
+    # a legfelső szintű hierarchia kiválasztása
     bases = set()
 
-    print("Begyűjtött szignatúra lista:")
+    # ki kell választani a Base-eket
+    for signature in signatures:
+        if signature.IsBase():
+            bases.add(signature)
+
+    # el kell indítani a vizsgálatot
+    print("\nEzeket a hibákat találtam:")
+    recursionLookup(bases, signatures)
+
+
+def parseBaseAndDerivedSignatures(contents, signatures):
+    contents = baseClassParser.parseBaseVirtuals(contents, signatures)
+    contents = derivedClassParser.parseDerivedVirtuals(contents, signatures)
+
+
+def collectSignaturesFromHeaderFiles(workDirectory, headerFiles):
+    signatures = set()
+
+    for headerFile in headerFiles:
+        # print(workDirectory + headerFile)
+        f = open(workDirectory + headerFile, "r")
+        contents = f.read()
+
+        parseBaseAndDerivedSignatures(contents, signatures)
+
+    print("\nBegyűjtött virtuális szignatúra lista:")
     for signature in signatures:
         print(f" - {signature.ToString()}")
         # print(signature.IsDerived())
         # print(signature.ToPretty())
 
-        # ki kell választani a Base-eket
-        if signature.IsBase():
-            bases.add(signature)
-
-    print("\nEzeket találtam:")
-
-    # el kell indítani a vizsgálatot
-    recursionLookup(bases, signatures)
+    examineVirtualFunctions(signatures)

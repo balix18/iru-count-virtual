@@ -27,7 +27,6 @@ def findHeaderFiles(listOfFiles):
     return headerFiles
 
 def main():
-    # TODO vissza kell rakni a CL-re
     # Debug, statikus könyvtár megadás
     # workDirectory = ".\\tests\\multi_hierarchi_multi_level\\"
 

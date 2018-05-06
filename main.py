@@ -29,10 +29,10 @@ def findHeaderFiles(listOfFiles):
 def main():
 
     # Debug, statikus könyvtár megadás
-    # workDirectory = ".\tests\multi_hierarchi_multi_level\"
+    workDirectory = ".\\tests\\multi_hierarchi_multi_level\\"
 
     # command line arg parser
-    workDirectory = commandLineArgParser()
+    # workDirectory = commandLineArgParser()
 
     if not workDirectory.endswith('\\'):
         workDirectory = workDirectory + ' \\'

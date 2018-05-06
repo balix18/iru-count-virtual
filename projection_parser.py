@@ -12,13 +12,16 @@ def recursionLookup(bases, signatures):
 
     # minden alapra megvizsgáljuk
     for base in bases:
-        # print(base.ToString())
+        #print(base.ToString())
 
         # meg kell keresni azokat, akik belőle származnak le
         for signature in signatures:
             if signature.baseClass == base.derivedClass:
                 # kényelmesebbb névre nevezése
                 derived = signature
+
+                if not derived.IsTheSignatureSubStructureSame(base):
+                    continue
 
                 # következő szinten őt is vizsgálni kell
                 newBases.add(derived)

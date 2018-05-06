@@ -2,8 +2,8 @@
 
 #include "TMammal.h"
 
-// El van rontva, hiányzik a const
 class Cat : public TMammal {
 public:
+    // El van rontva, hiányzik a const
     virtual void Say();
 };

@@ -2,8 +2,11 @@
 
 #include "TBird.h"
 
-// El van rontva, hiányzik a const
 class Bluebird : public TBird {
 public:
+    // El van rontva, hiányzik a const
     virtual void Say();
+
+    // El van rontva, ott van pluszba a const
+    virtual bool Fly(unsigned meter) const;
 };

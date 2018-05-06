@@ -15,13 +15,17 @@ class FunctionSignature(object):
     def IsDerived(self):
         return not self.IsBase()
 
+    # Itt nem kell vizsgálni, hogy a const egyezik-e
+    def IsTheSignatureSubStructureSame(self, base):
+        return self.type == base.type and \
+            self.name == base.name and \
+            self.parameteres == base.parameteres
+
     def IsVirtualOverrideCorrect(self, base):
         if self.baseClass != base.derivedClass:
             raise RuntimeError("Nem jó a leszármazási kapcsolat")
 
-        return self.type == base.type and \
-            self.name == base.name and \
-            self.parameteres == base.parameteres and \
+        return self.IsTheSignatureSubStructureSame(base) and \
             self.isConst == base.isConst
 
     def GetFunctionDefinitionString(self):

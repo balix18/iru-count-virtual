@@ -55,8 +55,8 @@ def recursionLookup(bases, signatures):
                 # meg kell nézni hogy helyes-e az override
                 if not derived.IsVirtualOverrideCorrect(base):
                     print(f"Hibás használat a(z) {derived.derivedClass} osztályban!" )
-                    print(f"\t\'{derived.GetFunctionDefinitionString()}\' helyett")
-                    print(f"\t\'{base.GetFunctionDefinitionString()}\' kellene.\n")
+                    print(f"\t\'{derived.GetFunctionDefinitionString()};\' helyett")
+                    print(f"\t\'{base.GetFunctionDefinitionString()};\' kellene.\n")
 
                     # a további vizsgálat érdekében ki kell javítani, hogy a mélyebb szinteken is vizsgálni lehessen
                     derived.isConst = base.isConst
@@ -96,7 +96,7 @@ def collectSignaturesFromHeaderFiles(workDirectory, headerFiles):
 
     print("\nBegyűjtött virtuális szignatúra lista:")
     for signature in signatures:
-        print(f" - {signature.ToString()}")
+        print(f" - {signature.ToString()};")
         # print(signature.IsDerived())
         # print(signature.ToPretty())
 
